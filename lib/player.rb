@@ -3,6 +3,7 @@
 # and open the template in the editor.
 
 require_relative 'treasure_kind.rb'
+require_relative 'dice'
 
 class Player
   
@@ -17,6 +18,10 @@ class Player
     @visibleTreasures=[]
   end
   
+  def self.copia(player)
+    new(player.name, player.level, player.hiddenTreasures, player.visibletreasures)
+  end
+  
   private
   
   def bringToLife
@@ -28,10 +33,18 @@ class Player
   end
   
   def decrementLevels(decrement)
-    @level -= decrement
+    @level -= decrement.to_i
     if(@level <1)
       @level=1
     end
+  end
+  
+  def getOponentLevel(m)
+    return m.getCombatLevel
+  end
+  
+  def shouldConvert
+    return (Dice.instance.nextNumber == 6)
   end
   
   def applyPrize(monster)
@@ -44,6 +57,10 @@ class Player
         @hiddenTreasures.add(dealer.nextTreasure)
       end
     end
+  end
+  
+  def setPendingBadConsequence(b)
+    @pendingBadConsequence = b
   end
   
   def applyBadConsequence(monster)
@@ -108,7 +125,7 @@ class Player
   end
   
   def giveMeATreasure
-    random = rant(@hiddenTreasures.size)
+    random = rand(@hiddenTreasures.size)
     return @hiddenTreasures.at(random)
   end
   
@@ -126,6 +143,16 @@ class Player
     return @dead
   end
   
+  def getCombatLevel
+    nivelaso= @level
+      
+    for i in(0..@visibleTreasures.length-1)
+      nivelaso += @visibleTreasures[i].bonus
+    end
+    
+    return nivelaso
+  end
+  
   def combat(monster)
     myLevel = getCombatLevel #1.1.1
     monsterLevel = monster.getCombatLevel #1.1.2
@@ -135,7 +162,7 @@ class Player
       dice = Dice.instance #1.1.3
       number = dice.nextNumber #1.1.4
       if(number<3)
-        enemyLevel = enemy.getCombatLevel #1.1.5
+        enemyLevel = @enemy.getCombatLevel #1.1.5
         monsterLevel += enemyLevel
       end
     end
@@ -178,7 +205,7 @@ class Player
   end
   
   def validState
-    return @pendingBadConsequence.isEmpty && @hiddenTreasures.length <=4
+    return @hiddenTreasures.length <=4 && (@pendingBadConsequence == nil || @pendingBadConsequence.empty?)
   end
   
   def initTreasures
@@ -186,15 +213,15 @@ class Player
     dice = Dice.instance
     bringToLife
     treasure = dealer.nextTreasure
-    @hiddenTreasures << treasure
+    @hiddenTreasures.push(treasure)
     number = dice.nextNumber
     if (number>1)
       treasure = dealer.nextTreasure
-      @hiddenTreasures << treasure
+      @hiddenTreasures.push(treasure)
     end
     if(number==6)
       treasure = dealer.nextTreasure
-      @hiddenTreasures << treasure
+      @hiddenTreasures.push(treasure)
     end
   end
   
@@ -235,6 +262,18 @@ class Player
     hiddenaux.each {|t|
       discardHiddenTreasure(t)
     } 
+  end
+  
+  def getHiddenTreasures
+    return @hiddenTreasures
+  end
+  
+  def getVisibleTreasures
+    return @visibleTreasures
+  end
+  
+  def to_s
+    "Nombre: #{@name}\nNivel de combate: #{getCombatLevel}"
   end
   
 end

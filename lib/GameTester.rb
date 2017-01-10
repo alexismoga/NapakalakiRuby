@@ -41,20 +41,20 @@ class GameTester
         if (command == Command::Combat) then
           combatResult = @game.developCombat()
           case combatResult
-            when NapakalakiGame::CombatResult::WINGAME then 
+            when Napakalaki::CombatResult::WINGAME then 
               puts "\n\n       " + currentPlayer.getName()
               puts "\n\n HAS GANADO LA PARTIDA"
               #break está implícito            
-            when NapakalakiGame::CombatResult::WIN then
+            when Napakalaki::CombatResult::WIN then
               puts "\n\n Ganaste el combate"
-            when NapakalakiGame::CombatResult::LOSE then
+            when Napakalaki::CombatResult::LOSE then
               puts "\n\n Has perdido el combate, te toca cumplir el mal rollo"
            end #case
-           if (combatResult != NapakalakiGame::CombatResult::WINGAME) then
+           if (combatResult != Napakalaki::CombatResult::WINGAME) then
             begin #Hasta que se avance de turno 
               puts "******* ******* ******* ******* ******* ******* *******"
               puts "\n\n Turno de: " + currentPlayer.to_s()
-              if currentPlayer.can_i_steal then
+              if currentPlayer.canISteal then
                 command = getCommandAfterFighting()
               else
                 command = getCommandAfterFightingNoSteal()

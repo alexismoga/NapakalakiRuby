@@ -7,7 +7,7 @@ class Dice
   include Singleton
   
   def nextNumber
-    return 1+rant(6)
+    return 1+rand(6)
   end
   
 end

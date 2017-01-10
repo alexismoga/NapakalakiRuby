@@ -30,23 +30,23 @@ class Napakalaki
   end
   
   def nextPlayer
-    next_p
-    indice
-    
-    if(@currentPlayer.nil?)
-      indice = rant(@players.size)
-      next_p = @players.at(indice)
+    index_next = 0
+    n_pl = nil
+    if @currentPlayer == nil
+      index_next = rand(@players.size - 1)
+      n_pl = @players[index_next]
     else
-      indice = players.indexOf(@currentPlayer)
-            if(indice ==(@players.size -1) )
-                next_p=@players.at(0) 
-            else
-                next_p=@players.at(indice+1)
-            end
+      index_next = @players.index(@currentPlayer)
+      if index_next == @players.size - 1
+          index_next = 0
+      else
+          index_next+=1
       end
-      @currentPlayer=next_p;
-      return @currentPlayer;
+      n_pl = @players[index_next]
     end
+    @currentPlayer = n_pl
+    return n_pl
+  end
   
   def nextTurnAllowed
     return @currentPlayer.nil? ? true : @currentPlayer.validState
@@ -117,6 +117,14 @@ class Napakalaki
   
   def endOfGame(result)
     return result == CombatResult::WINGAME
+  end
+  
+  def getCurrentPlayer
+    return @currentPlayer
+  end
+  
+  def getCurrentMonster
+    return @currentMonster
   end
   
 end

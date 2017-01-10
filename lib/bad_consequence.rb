@@ -7,7 +7,7 @@ require_relative 'treasure_kind'
 
 class BadConsequence
   
-  attr_reader :text, :levels, :someVisibleTreasures, :someHiddenTreasures, :death
+  attr_reader :atext, :somelevels, :someVisibleTreasures, :someHiddenTreasures, :death
   attr_reader :someSpecificVisibleTreasures, :someSpecificHiddenTreasures
   @@MAXTREASURES=10
   
@@ -24,20 +24,24 @@ class BadConsequence
   
   def BadConsequence.newLevelNumberOfTreasures(aText, someLevels,
     someVisibleTreasures, someHiddenTreasures)
-    new(aText,someLevels,someVisibleTreasures,someHiddenTreasures,false,[],[])
+    new(aText,someLevels,someVisibleTreasures,someHiddenTreasures,[],[], false)
   end
   
   def BadConsequence.newLevelSpecificTreasures(aText, someLevels,
     someSpecificVisibleTreasures, someSpecificHiddenTreasures)
-    new(aText,someLevels,0,0,false,someSpecificVisibleTreasures,someSpecificHiddenTreasures)
+    new(aText,someLevels,0,0,someSpecificVisibleTreasures,someSpecificHiddenTreasures, false)
   end
   
   def BadConsequence.newDeath(aText)
-    new(aText,0,0,0,true,[],[])
+    new(aText,0,0,0,[],[],true)
   end
   
   def isEmpty
     return @someVisibleTreasures==0 && @someHiddenTreasures==0 && @someSpecificVisibleTreasures.empty? && @someSpecificHiddenTreasures.empty?
+  end
+  
+  def getLevels
+    return @someLevels
   end
   
   def substractHiddenTreasure(treasure)
@@ -57,7 +61,8 @@ class BadConsequence
   end
   
   #Esta parte no la he excrito yo, la mayoría no me salía :(
-  def adjustToFitTreasureList(visible, hidden)
+  def adjustToFitTreasureLists(v, h)
+    b=nil
     if @someVisibleTreasures != 0 or @someHiddenTreasures != 0 
       if (@someVisibleTreasures >= v.length)
         nV = v.lengh
@@ -70,7 +75,7 @@ class BadConsequence
       else
         nH = @someHiddenTreasures
       end
-        b.newLevelNumberOfTreasures(@text,@levels,nV,nH) 
+        b.newLevelNumberOfTreasures(@atext,@somelevels,nV,nH) 
                 
       elsif @someSpecificHiddenTreasures.empty? or @someSpecificVisibleTreasures.empty?
         sV = Array.new
@@ -86,13 +91,14 @@ class BadConsequence
       }
       intersectionH = sH & @someSpecificHiddenTreasures
                 
-      b.newLevelSpecificTreasures(@text,@levels,intersectionV,intersectionH)               
+      b.newLevelSpecificTreasures(@atext,@somelevels,intersectionV,intersectionH)               
     end
     return b
   end
   
   def to_s
-    "#{@text}\n Niveles: #{@levels}\n Tesoros Visibles: #{@nVisibleTreasures}
-    \nTesoros Ocultos: #{@nHiddenTreasures}\n Muerte: #{@death}"
+    "#{@atext}\n Niveles: #{@somelevels}\n Tesoros Visibles: #{@someVisibleTreasures}
+    \nTesoros Ocultos: #{@someHiddenTreasures}\n Muerte: #{@death}
+    \nSpecificVisible: #{@someSpecificVisibleTreasures}\nSpecificHidden: #{@someSpecificHiddenTreasures} " 
   end
 end
