@@ -4,6 +4,7 @@
 
 require_relative 'treasure_kind.rb'
 require_relative 'dice'
+require_relative 'card_dealer'
 
 class Player
   
@@ -14,8 +15,8 @@ class Player
   def initialize(name)
     @name = name
     @level=1
-    @hiddenTreasures=[]
-    @visibleTreasures=[]
+    @hiddenTreasures= Array.new
+    @visibleTreasures= Array.new
   end
   
   def self.copia(player)
@@ -55,6 +56,7 @@ class Player
       dealer = CardDealer.instance #4
       0.upto(nTreasures) do |i|
         @hiddenTreasures.add(dealer.nextTreasure)
+        i += 1
       end
     end
   end

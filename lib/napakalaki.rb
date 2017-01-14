@@ -97,7 +97,7 @@ class Napakalaki
   def initGame(players)
     initPlayers(players) #1.1
     setEnemies #1.2
-    dealer.initCards #1.3
+    @dealer.initCards #1.3
     nextTurn #1.4
   end
   

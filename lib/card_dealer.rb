@@ -192,9 +192,7 @@ class CardDealer
   
   public
   
-  def nextTreasure
-    devuelta
-        
+  def nextTreasure    
     if @unusedTreasures.empty?
       @usedTreasures.each {|usedTreasure|
         @unusedTreasures << usedTreasure
