@@ -7,37 +7,15 @@ require_relative 'treasure_kind'
 
 class BadConsequence
   
-  attr_reader :atext, :somelevels, :someVisibleTreasures, :someHiddenTreasures, :death
-  attr_reader :someSpecificVisibleTreasures, :someSpecificHiddenTreasures
-  @@MAXTREASURES=10
+  attr_reader :atext, :someLevels
   
-  def initialize(atext, somelevels, someVisibleTreasures, someHiddenTreasures, 
-      someSpecificVisibleTreasures, someSpecificHiddenTreasures, death)
+  def initialize(atext, someLevels)
     @atext = atext
-    @somelevels = somelevels
-    @someVisibleTreasures = someVisibleTreasures
-    @someHiddenTreasures = someHiddenTreasures
-    @someSpecificVisibleTreasures = Array.new(someSpecificVisibleTreasures)
-    @someSpecificHiddenTreasures = Array.new(someSpecificHiddenTreasures)
-    @death = death
-  end
-  
-  def BadConsequence.newLevelNumberOfTreasures(aText, someLevels,
-    someVisibleTreasures, someHiddenTreasures)
-    new(aText,someLevels,someVisibleTreasures,someHiddenTreasures,[],[], false)
-  end
-  
-  def BadConsequence.newLevelSpecificTreasures(aText, someLevels,
-    someSpecificVisibleTreasures, someSpecificHiddenTreasures)
-    new(aText,someLevels,0,0,someSpecificVisibleTreasures,someSpecificHiddenTreasures, false)
-  end
-  
-  def BadConsequence.newDeath(aText)
-    new(aText,0,0,0,[],[],true)
+    @someLevels = someLevels  
   end
   
   def isEmpty
-    return @someVisibleTreasures==0 && @someHiddenTreasures==0 && @someSpecificVisibleTreasures.empty? && @someSpecificHiddenTreasures.empty?
+    raise "Ups! Esto no es Java"
   end
   
   def getLevels
@@ -45,22 +23,19 @@ class BadConsequence
   end
   
   def substractHiddenTreasure(treasure)
-    if !@someSpecificHiddenTreasures.empty?
-            @someSpecificHiddenTreasures.delete(treasure.getType)
-    elsif  @someHiddenTreasures!=0
-      @someHiddenTtreasures =  @someHiddenTtreasures -1
-    end
+    raise "Ups! Esto no es Java"
   end
   
   def substractVisibleTreasure(treasure)
-    if !@someSpecificVisibleTreasures.empty?
-            @someSpecificVisibleTreasures.delete(treasure.getType)
-    elsif  @someVisibleTreasures!=0
-      @someVisibleTtreasures =  @someVisibleTtreasures -1
-    end
+    raise "Ups! Esto no es Java"
   end
   
-  #Esta parte no la he excrito yo, la mayoría no me salía :(
+  def adjustToFitTreasureLists(v, h)
+    raise "Ups! Esto no es Java"
+  end
+  
+=begin 
+ 
   def adjustToFitTreasureLists(v, h)
     b=nil
     if @someVisibleTreasures != 0 or @someHiddenTreasures != 0 
@@ -75,7 +50,7 @@ class BadConsequence
       else
         nH = @someHiddenTreasures
       end
-        b.newLevelNumberOfTreasures(@atext,@somelevels,nV,nH) 
+        b.newLevelNumberOfTreasures(@atext,@someLevels,nV,nH) 
                 
       elsif @someSpecificHiddenTreasures.empty? or @someSpecificVisibleTreasures.empty?
         sV = Array.new
@@ -91,14 +66,13 @@ class BadConsequence
       }
       intersectionH = sH & @someSpecificHiddenTreasures
                 
-      b.newLevelSpecificTreasures(@atext,@somelevels,intersectionV,intersectionH)               
+      b.newLevelSpecificTreasures(@atext,@someLevels,intersectionV,intersectionH)               
     end
     return b
   end
   
+=end
   def to_s
-    "#{@atext}\n Niveles: #{@somelevels}\n Tesoros Visibles: #{@someVisibleTreasures}
-    \nTesoros Ocultos: #{@someHiddenTreasures}\n Muerte: #{@death}
-    \nSpecificVisible: #{@someSpecificVisibleTreasures}\nSpecificHidden: #{@someSpecificHiddenTreasures} " 
+    "#{@atext}\n Niveles: #{@someLevels}\n " 
   end
 end
