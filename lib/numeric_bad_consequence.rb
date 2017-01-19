@@ -28,6 +28,7 @@ class NumericBadConsequence < BadConsequence
     end
   end
   
+  
   def adjustToFitTreasureLists(v, h)
     nVisible = @someVisibleTreasures
     nHidden = @someHiddenTreasures

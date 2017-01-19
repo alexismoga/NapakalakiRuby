@@ -8,7 +8,7 @@ require_relative 'card_dealer'
 
 class Player
   
-  attr_reader :name, :hiddenTreasures, :visibleTreasures, :level
+  attr_reader :name, :hiddenTreasures, :visibleTreasures, :level, :dead
   attr_writer :pendingBadConsequence, :enemy
   @@MAXLEVEL=10
 
@@ -17,6 +17,7 @@ class Player
     @level=1
     @hiddenTreasures= Array.new
     @visibleTreasures= Array.new
+    @dead = true
   end
   
   def self.copia(player)
@@ -97,13 +98,13 @@ class Player
     
     if ((nArmor == 0) && (treasure.getType == TreasureKind::ARMOR))
       res = true
-    elsif((nOnehand < 2) && (nBothhand == 0) && (treasure.getType == TreasureKind::ONEHAND))
+    elsif((nOnehand < 2) && (nBothhands == 0) && (treasure.getType == TreasureKind::ONEHAND))
       res = true
-    elsif((nBothhand == 0) && (nOnehand == 0) && (treasure.getType == TreasureKind::BOTHHAND))
+    elsif((nBothhands == 0) && (nOnehand == 0) && (treasure.getType == TreasureKind::BOTHHANDS))
       res = true
     elsif((nHelmet == 0) && (treasure.getType == TreasureKind::HELMET))
       res = true
-    elsif((nShoes == 0) && (treasure.getType == TreasureKind::SHOE))
+    elsif((nShoes == 0) && (treasure.getType == TreasureKind::SHOES))
       res = true
     end
     
@@ -156,7 +157,7 @@ class Player
   end
   
   def combat(monster)
-    myLevel = getCombatLevel #1.1.1
+    myLevel = self.getCombatLevel #1.1.1
     monsterLevel = monster.getCombatLevel #1.1.2
     enemyLevel = 0
     @result

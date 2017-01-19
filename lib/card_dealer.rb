@@ -9,6 +9,9 @@ require_relative 'treasure_kind'
 require_relative 'monster'
 require_relative 'prize'
 require_relative 'cultist'
+require_relative 'specific_bad_consequence'
+require_relative 'numeric_bad_consequence'
+require_relative 'death_bad_consequence'
 
 class CardDealer
   
@@ -94,7 +97,7 @@ class CardDealer
     @unusedMonsters << Monster.newMonsterNoCultist("Flecher",2,p9,b9)
 
     p10=Prize.new(2,1)
-    b10=DeathBadConsequence.new("Estos monstruos resultan bastante superficiales y te aburren mortalmente")
+    b10=DeathBadConsequence.new("Estos monstruos resultan bastante superficiales y te aburren mortalmente",0,0,0,true)
     @unusedMonsters << Monster.newMonsterNoCultist("Los Hondos",8,p10,b10)
 
     p11=Prize.new(2,1)
@@ -110,11 +113,11 @@ class CardDealer
     @unusedMonsters << Monster.newMonsterNoCultist("Pollipolipo volante",3,p13,b13)
 
     p14=Prize.new(3,1)
-    b14=DeathBadConsequence.new("No le hace gracia que pronuncien mal su nombre. Estas muerto")
+    b14=DeathBadConsequence.new("No le hace gracia que pronuncien mal su nombre. Estas muerto",0,0,0,true)
     @unusedMonsters << Monster.newMonsterNoCultist("YskhtihyssgGoth",14,p14,b14)
 
     p15=Prize.new(3,1)
-    b15=DeathBadConsequence.new("La familia te atrapa. Estas muerto")
+    b15=DeathBadConsequence.new("La familia te atrapa. Estas muerto",0,0,0,true)
     @unusedMonsters << Monster.newMonsterNoCultist("Familia feliz",1,p15,b15)
 
     p16=Prize.new(2,1)
@@ -144,7 +147,7 @@ class CardDealer
     @unusedMonsters << Monster.newMonsterCultist("Testigos Oculares", 6,p21,b21,2)
     
     p22=Prize.new(2,5)
-    b22=DeathBadConsequence.new("Hoy no es tu dia de suerte. Mueres")
+    b22=DeathBadConsequence.new("Hoy no es tu dia de suerte. Mueres",0,0,0,true)
     @unusedMonsters << Monster.newMonsterCultist("El gran cthulhu", 20,p22,b22,4)
   
     p23=Prize.new(2,1)
@@ -179,63 +182,63 @@ class CardDealer
   end
   
   def shuffleTreasures
-    @unusedTreasures.shuffle
+    @unusedTreasures = @unusedTreasures.shuffle!
   end
   
   def shuffleMonsters
-    @unusedMonsters.shuffle
+    @unusedMonsters= @unusedMonsters.shuffle!
   end
   
   def shuffleCultists
-    @unusedCultists.shuffle
+    @unusedCultists = @unusedCultists.shuffle!
   end
   
   public
   
   def nextTreasure    
     if @unusedTreasures.empty?
-      @usedTreasures.each {|usedTreasure|
+      @usedTreasures.each do |usedTreasure|
         @unusedTreasures << usedTreasure
-      }
+      end
       @usedTreasures.clear
       shuffleTreasures
     end
         
     devuelta = @unusedTreasures.at(0)
     @usedTreasures << devuelta
-    @unusedTreasures.delete(0)
+    @unusedTreasures.delete_at(0)
         
     return devuelta
   end
   
   def nextMonster   
     if @unusedMonsters.empty?
-      @usedMonsters.each {|usedMonsters|
+      @usedMonsters.each do |usedMonsters|
         @unusedMonsters << usedMonsters
-      }
+      end
       @usedMonsters.clear
       shuffleMonsters
     end
         
     devuelta = @unusedMonsters.at(0)
     @usedMonsters << devuelta
-    @unusedMonsters.delete(0)
+    @unusedMonsters.delete_at(0)
         
     return devuelta
   end
   
   def nextCultist
     if @unusedCultists.empty?
-      @usedCultists.each {|usedCultists|
+      @usedCultists.each do|usedCultists|
         @unusedCultists << usedCultists
-      }
+      end
       @usedCultists.clear
       shuffleCultists
     end
         
     devuelta = @unusedCultists.at(0)
     @usedCultists << devuelta
-    @unusedCultists.delete(0)
+    @unusedCultists.delete_at(0)
         
     return devuelta
   end

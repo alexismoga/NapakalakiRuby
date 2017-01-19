@@ -69,7 +69,17 @@ class Napakalaki
   def developCombat
     m = @currentMonster
     result = @currentPlayer.combat(m) # 1.1
-    dealer.giveMonsterBack(m) #1.2
+    if result == CombatResult::LOSEANDCONVERT
+      unicaInsta = @dealer.nextCultist()
+      newplayer = CultistPlayer.new(@currentPlayer,unicaInsta)
+      currentpind = @players.index(@currentPlayer)
+      enemy = @currentPlayer.enemy
+      @players.set(currentpind, newplayer)
+      @currentPlayer = newplayer
+      newplayer.setEnemy(enemy)
+    end
+    
+    @dealer.giveMonsterBack(m) #1.2
     
     return result
   end
@@ -77,14 +87,14 @@ class Napakalaki
   def discardVisibleTreasures(treasures)
     treasures.each {|t|  #1.1
       @currentPlayer.discardVisibleTreasure(t) #1.2
-      dealer.giveTreasureBack(t) #1.3
+      @dealer.giveTreasureBack(t) #1.3
     }
   end
   
   def discardHiddenTreasures(treasures)
     treasures.each {|t|  #1.1
       @currentPlayer.discardHiddenTreasure(t) #1.2
-      dealer.giveTreasureBack(t) #1.3
+      @dealer.giveTreasureBack(t) #1.3
     }
   end
   
@@ -105,7 +115,7 @@ class Napakalaki
     stateOk = nextTurnAllowed #1.1
         
       if(stateOk)
-        @currentMonster = dealer.nextMonster #1.2
+        @currentMonster = @dealer.nextMonster #1.2
         @currentPlayer = nextPlayer #1.3
         dead = @currentPlayer.isDead #1.4
         if(dead)

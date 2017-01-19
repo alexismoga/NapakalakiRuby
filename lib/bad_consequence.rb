@@ -15,7 +15,7 @@ class BadConsequence
   end
   
   def isEmpty
-    raise "Ups! Esto no es Java"
+    
   end
   
   def getLevels
@@ -23,15 +23,15 @@ class BadConsequence
   end
   
   def substractHiddenTreasure(treasure)
-    raise "Ups! Esto no es Java"
+    
   end
   
   def substractVisibleTreasure(treasure)
-    raise "Ups! Esto no es Java"
+    
   end
   
   def adjustToFitTreasureLists(v, h)
-    raise "Ups! Esto no es Java"
+    
   end
   
 =begin 
